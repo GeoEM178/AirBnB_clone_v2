@@ -20,7 +20,7 @@ class City(BaseModel, Base):
             cant be null
             is a foreign key to states.id
     """
-    se = environ.get("HBNB_TYPE_STORAGE")
+    se = os.getenv('HBNB_TYPE_STORAGE') == 'db'
     if (se == "db"):
         __tablename__ = "cities"
         name = Column(String(128), nullable=False)

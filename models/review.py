@@ -12,7 +12,7 @@ from models.user import User
 
 class Review(BaseModel):
     """ Review classto store review information """
-    se = environ.get("HBNB_TYPE_STORAGE")
+    se = os.getenv('HBNB_TYPE_STORAGE') == 'db'
     if (se == 'db'):
         __tablename__ = "reviews"
         place_id = Column(String(60), ForeignKey("places.id"))

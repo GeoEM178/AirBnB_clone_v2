@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 
 class State(BaseModel, Base):
     """ State class """
-    se = environ.get("HBNB_TYPE_STORAGE")
+    se = os.getenv('HBNB_TYPE_STORAGE') == 'db'
     if (se == 'db'):
         __tablename__ = "states"
         name = Column(String(128), nullable=False)

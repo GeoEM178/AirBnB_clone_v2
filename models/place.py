@@ -9,7 +9,7 @@ from sqlalchemy import Column, String, Float, Integer, Table, ForeignKey
 
 class Place(BaseModel):
     """ A place to stay """
-    se = environ.get("HBNB_TYPE_STORAGE")
+    se = os.getenv('HBNB_TYPE_STORAGE') == 'db'
 
     if se == "db":
     place_amenity = Table('place_amenity', Base.metadata,
