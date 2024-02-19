@@ -7,9 +7,7 @@ from sqlalchemy.orm import relationship
 
 
 class User(BaseModel, Base):
-    """
-        User class
-    """
+    """This class defines a user by various attributes"""
     se = environ.get("HBNB_TYPE_STORAGE")
     if (se == 'db'):
         __tablename__ = "users"
