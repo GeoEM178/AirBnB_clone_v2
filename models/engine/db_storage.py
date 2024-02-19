@@ -2,7 +2,7 @@
 """
 
 """
-# handles the details of how to connect to the database and execute SQL commands
+# handles the details of how to connect to the database and execute SQL command
 from sqlalchemy import create_engine
 from os import getenv
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
@@ -18,10 +18,11 @@ from models.user import User
 
 class DBStorage:
     """
-    
+    db storage class
     """
     __engine = None
     __session = None
+
     def __init__(self) -> None:
         username = getenv("HBNB_MYSQL_USER")
         password = getenv("HBNB_MYSQL_PWD")
@@ -38,7 +39,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """
-        
+        override all
         """
         objs_list = []
         if cls:
@@ -57,34 +58,34 @@ class DBStorage:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             obj_dict[key] = obj
         return obj_dict
-    
+
     def new(self, obj):
         """
-        
+        override new
         """
         self.__session.add(obj)
         self.__session.commit()
 
     def save(self):
         """"
-        
+        override save
         """
-        self.__session.commit()    
+        self.__session.commit()
 
-                
     def delete(self, obj=None):
         """
-        
+        delete function
         """
         if obj:
             self.__session.delete(obj)
 
     def reload(self):
         """
-        
+        reload fimctopm
         """
         Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()

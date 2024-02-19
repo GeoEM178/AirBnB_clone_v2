@@ -16,7 +16,6 @@ from models.state import State
 from models.city import City
 
 
-
 def split_dict_brk(split_cmd):
     """
     Splits the curly braces for the update method
@@ -51,13 +50,14 @@ def split_dict_brk(split_cmd):
                 return id, attr_name
             return f"{id}", f"{attr_name} {attr_value}"
 
+
 class HBNBCommand(cmd.Cmd):
     """
     HBNBCommand console class
     """
     prompt = "(hbnb) "
     exist_clss = ["BaseModel", "User", "Amenity",
-                     "Place", "Review", "State", "City"]
+                  "Place", "Review", "State", "City"]
 
     def emptyline(self):
         """
@@ -76,11 +76,9 @@ class HBNBCommand(cmd.Cmd):
         Close the cli
         """
         return True
-        
 
     def do_create(self, arg):
         """Crreatew bew obj
-
         Args:
             arg (dict): attrebutes
         """
@@ -96,10 +94,8 @@ class HBNBCommand(cmd.Cmd):
             all_args = {}
             awamer = arg.split(" ")
             for i in range(1, len(awamer)):
-                
                 key = awamer[i].split("=")[0]
                 value = awamer[i].split("=")[1]
-                #key, value = tuple(awamer[i].split("="))
                 if value.startswith('"'):
                     value = value.strip('"').replace("_", " ")
                 else:
@@ -182,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
             for key, value in objects.items():
                 if key.split('.')[0] == awamer[0]:
                     print(str(value))
-        
+
     def do_count(self, arg):
         """
         Counts and retrieves the number of instances of a class
@@ -269,7 +265,7 @@ class HBNBCommand(cmd.Cmd):
                     setattr(obj, attr_name, attr_value)
 
                 obj.save()
-    
+
     def default(self, arg):
         """
         Default behavior for cmd module when input is invalid
@@ -311,7 +307,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(f"*** Unknown syntax: {arg}")
             return False
-    
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
