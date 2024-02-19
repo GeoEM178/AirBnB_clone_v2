@@ -50,15 +50,16 @@ class test_fileStorage(unittest.TestCase):
         gdid = BaseModel()
         self.assertFalse(os.path.exists('file.json'))
 
-    def test_is_emp(self):
-        """ Data is saved to file """
+    def test_without_any_thing(self):
+        """_summary_
+        """
         gdid = BaseModel()
         gdid_dic = gdid.to_dict()
         gdid.save()
         gdid2 = BaseModel(**gdid_dic)
         self.assertNotEqual(os.path.getsize('file.json'), 0)
 
-    def test_save(self):
+    def test_to_save(self):
         """ FileStorage save method """
         gdid = BaseModel()
         storage.save()
@@ -95,7 +96,7 @@ class test_fileStorage(unittest.TestCase):
         gdid.save()
         self.assertTrue(os.path.exists('file.json'))
 
-    def test_type_path(self):
+    def test_if_str(self):
         """ Confirm __file_path is string """
         self.assertEqual(type(storage._FileStorage__file_path), str)
 
@@ -103,7 +104,7 @@ class test_fileStorage(unittest.TestCase):
         """ Confirm __objects is a dict """
         self.assertEqual(type(storage.all()), dict)
 
-    def test_key_format(self):
+    def test_atrr(self):
         """ Key is properly formatted """
         gdid = BaseModel()
         _id = gdid.to_dict()['id']
@@ -111,8 +112,8 @@ class test_fileStorage(unittest.TestCase):
             temp = key
         self.assertEqual(temp, 'BaseModel' + '.' + _id)
 
-    def test_storage_var_created(self):
-        """ FileStorage object storage created """
+    def test_typeof_storage(self):
+        """_summary_
+        """
         from models.engine.file_storage import FileStorage
-        # print(type(storage))
         self.assertEqual(type(storage), FileStorage)

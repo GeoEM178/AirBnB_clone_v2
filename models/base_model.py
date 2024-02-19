@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""_summary_
+"""The base model
 Returns:
-    _type_: _description_
+    any: anything
 """
 import uuid
 from datetime import datetime
@@ -9,7 +9,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DateTime, String
 
 Base = declarative_base()
-
 
 class BaseModel:
     """_summary_
@@ -42,8 +41,8 @@ class BaseModel:
         Returns:
             String: Object as a string
         """
-        cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return f'[{cls}] ({self.id}) {self.__dict__}'
+        str_cls = (str(type(self)).split('.')[-1]).split('\'')[0]
+        return f'[{str_cls}] ({self.id}) {self.__dict__}'
 
     def save(self):
         """To save the new objs
@@ -59,17 +58,18 @@ class BaseModel:
         Returns:
             _type_: _description_
         """
-        new_dict = {}
-        new_dict.update(self.__dict__)
-        new_dict.update({'__class__':
+        trans_dict = {}
+        trans_dict.update(self.__dict__)
+        trans_dict.update({'__class__':
                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        new_dict['created_at'] = self.created_at.isoformat()
-        new_dict['updated_at'] = self.updated_at.isoformat()
+        trans_dict['created_at'] = self.created_at.isoformat()
+        trans_dict['updated_at'] = self.updated_at.isoformat()
         try:
-            del new_dict["_sa_instance_state"]
+            if trans_dict["_sa_instance_state"]:
+                del trans_dict["_sa_instance_state"]
         except Exception:
             pass
-        return new_dict
+        return trans_dict
 
     def delete(self):
         """Function that delete an obj

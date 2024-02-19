@@ -6,7 +6,6 @@
 from sqlalchemy import create_engine
 from os import getenv
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
-from sqlalchemy.exc import InvalidRequestError
 from models.base_model import Base, BaseModel
 from models.amenity import Amenity
 from models.city import City
@@ -51,8 +50,8 @@ class DBStorage:
             if issubclass(cls, Base):
                 objs_list = self.__session.query(cls).all()
         else:
-            for subclass in Base.__subclasses__():
-                objs_list.extend(self.__session.query(subclass).all())
+            for child in Base.__subclasses__():
+                objs_list.extend(self.__session.query(child).all())
         obj_dict = {}
         for obj in objs_list:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
@@ -60,15 +59,16 @@ class DBStorage:
         return obj_dict
 
     def new(self, obj):
-        """
-        override new
+        """_summary_
+
+        Args:
+            obj (_type_): _description_
         """
         self.__session.add(obj)
         self.__session.commit()
 
     def save(self):
-        """"
-        override save
+        """_summary_
         """
         self.__session.commit()
 
@@ -85,7 +85,7 @@ class DBStorage:
         """
         Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
+        sess_config = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
-        Session = scoped_session(session_factory)
+        Session = scoped_session(sess_config)
         self.__session = Session()
