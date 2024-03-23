@@ -81,3 +81,7 @@ class FileStorage:
             del FileStorage.__objects[obj_to_del]
         except Exception:
             pass
+
+    def close(self):
+        """reloading the storrage"""
+        self.reload()
